@@ -1,5 +1,7 @@
 package learning.encoding;
 
+import org.junit.jupiter.api.Test;
+
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
@@ -13,7 +15,6 @@ import java.security.spec.X509EncodedKeySpec;
 
 import javax.crypto.KeyAgreement;
 
-import org.junit.Test;
 
 public class KeyEncoding {
 	@Test

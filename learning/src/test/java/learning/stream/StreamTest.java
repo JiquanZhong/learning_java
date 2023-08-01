@@ -1,10 +1,13 @@
 package learning.stream;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class StreamTest {
@@ -16,13 +19,14 @@ public class StreamTest {
    */
 
   List<String> list = Arrays.asList("apple", "banana", "orange");
-  List<Employee> employeeData = new ArrayList<>() {
-    {
-      add(new Employee(1009, "马斯克", 40, 12500.32));
-      add(new Employee(1010, "艾克斯", 50, 2500.32));
-      add(new Employee(1011, "玛丽", 20, 5000.32));
-    }
-  };
+  List<Employee> employeeData = new ArrayList<>();
+  @BeforeEach
+  public void init(){
+    employeeData.add(new Employee(1011, "玛丽", 20, 5000.32));
+    employeeData.add(new Employee(1010, "艾克斯", 50, 2500.32));
+    employeeData.add(new Employee(1009, "马斯克", 40, 12500.32));
+  }
+
 
 
   @Test
@@ -155,5 +159,60 @@ public class StreamTest {
     System.out.println();
   }
 
+  //
+  @Test
+  public void test5() {
+    System.out.println(employeeData.stream().allMatch(emp -> emp.getAge() > 18));
 
+    System.out.println(employeeData.stream().anyMatch(emp -> emp.getName().startsWith("马")));
+
+    System.out.println(employeeData.stream().anyMatch(emp -> emp.getAge() > 99));
+
+    System.out.println(employeeData.stream().filter(emp -> emp.getAge() > 25).count());
+
+    // 获取最高工资
+    System.out.println(employeeData.stream().min((e1, e2) ->  Double.compare(e1.getSalary(),e2.getSalary())).get());
+    System.out.println(employeeData.stream().sorted((e1,e2)-> e1.getSalary() <= e2.getSalary() ? 1 : -1).findFirst().get());
+  }
+
+  class Person {
+    String name;
+    public Person(String name) {
+      this.name = name;
+    }
+    public String toString() {
+      return "Person:" + this.name;
+    }
+  }
+
+  @Test
+  public void test6() {
+    List<String> names = List.of("Bob", "Alice", "Tim");
+    List<Person> persons =
+        names.stream().map(Person::new).collect(Collectors.toList());
+    System.out.println(persons);
+  }
+
+  @Test
+  public void test7() {
+    Stream<Integer> generator = Stream.generate(new NaturalGenerator());
+    generator.limit(10).map(Math::exp).forEach(System.out::println);
+    System.out.println();
+
+    List<String> list = List.of("Apple", "Banana", "Orange");
+    //toArray内部传入数组的构造函数，参数为数组大小 输出为目标数组
+    String[] array = list.stream().toArray(String[]::new);
+    System.out.println(Arrays.toString(array));
+  }
+
+  static class NaturalGenerator implements Supplier<Integer> {
+    private static Integer n = 0;
+
+    @Override
+    public Integer get() {
+      return n++;
+    }
+
+
+  }
 }
