@@ -4,7 +4,7 @@
     <groupId>com.liaoxuefeng</groupId>
     <artifactId>learning</artifactId>
     <version>1.0</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
@@ -28,12 +28,57 @@
             <version>1.69</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+            <version>10.1.8</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+            <version>10.1.11</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.14.2</version>
+        </dependency>
 
 
     </dependencies>
 
+
     <build>
         <finalName>build</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.2</version>
+                <configuration>
+                    <!-- 复制classes到war包根目录 -->
+                    <webResources>
+                        <resource>
+                            <directory>${project.build.directory}/classes</directory>
+                        </resource>
+                    </webResources>
+                    <archiveClasses>true</archiveClasses>
+                    <archive>
+                        <manifest>
+                            <!-- 添加Class-Path -->
+                            <addClasspath>true</addClasspath>
+                            <!-- Classpath前缀 -->
+                            <classpathPrefix>tmp-webapp/WEB-INF/lib/</classpathPrefix>
+                            <!-- main启动类 -->
+                            <mainClass>com.itranswarp.learnjava.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
