@@ -1,0 +1,1 @@
+this is logo.txt: demonstrating the use of Resources
