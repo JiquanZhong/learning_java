@@ -45,7 +45,7 @@ public class ThreadDemo {
 		 * 它们都表示着线程处于阻塞的状态，但是造成阻塞的原因却不一样。
 		 * BLOCKED表示：线程尝试获取锁失败后，获取失败进入的状态
 		 * WAITING表示：线程主动调用特定方法进入WAITING状态，以等待其他线程的任务完成。可以使用Object.wait和Thread.join
-		 * 同时，wait和join方法一定要在同步代码块或同步方法中使用，否则会报错。调用之后，线程会自动释放持有的锁。在方法返回后，线程又会获取锁。
+		 * 同时，wait和notify方法一定要在同步代码块或同步方法中使用，否则会报错。调用之后，线程会自动释放持有的锁。在方法返回后，线程又会获取锁。
 		 * 可以notify和notifyAll来唤醒WAITING的线程
 		 * 总结：它们都表示线程的阻塞状态，它们不同的原因是WAITING由人主动进入，而BLOCKED竞争锁失败后被动进入
 		 * 		BLOCKED的唤醒是自动触发的，而WAITING需要特定方法触发
@@ -201,6 +201,7 @@ public class ThreadDemo {
 		 * ScheduledThreadPool:定时线程池。具有延时执行的线程池，可以用来实现定时调度
 		 * WorkStealingPool:工作窃取线程池。在队列没有任务的时候，可以从其他线程池的任务队列拿任务执行。避免的线程池的空闲。常用于一些计算性的工作
 		 */
+//		Executors.newCachedThreadPool();
 
 		ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(5, 10, 60, TimeUnit.SECONDS, new ArrayBlockingQueue<>(5));
 //		threadPoolExecutor.prestartCoreThread();
@@ -323,7 +324,7 @@ public class ThreadDemo {
 		 */
 
 		/**
-		 *  2.2.13 wait和notify为什么要卸载synchronized代码块中
+		 *  2.2.13 wait和notify为什么要写synchronized代码块中
 		 */
 
 		/**
